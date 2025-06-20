@@ -1,8 +1,18 @@
 from typing import Any
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views import View
 from .models import Post  # Import the Post model
 # Create your views here.
+class HomeView(View):
+    template_name = 'blog/home.html'
+    def get(self, request):
+        context = {
+            'user_id': request.session.get('user_id'),
+            'username': request.session.get('username'),
+        }
+        return render(request, self.template_name, context)
+
 class PostListView(ListView):
     model = Post  # Specify the model to use
     template_name = 'blog/post_list.html'  # Specify the template to use
